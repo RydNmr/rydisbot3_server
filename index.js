@@ -20,7 +20,7 @@ io.on("connection", (socket) => {
     // Receive message from client
     socket.on("send_message", (data) => {
         console.log(data);
-        
+        client.channels.cache.get('1089831883132649502').send(data.message)
 
 
 
