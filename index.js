@@ -8,10 +8,10 @@ const server = http.createServer(app);
 const {Server} = require("socket.io");
 const io = new Server(server, {
     cors: {
-      origin: ["https://rydisbot3-clinet.vercel.app"]
+      origin: ["https://rydisbot3-client.vercel.app"]
     }
   });
-const PORT = 5000;
+const PORT = process.env.PORT || 3000;
 
 // connect to client
 io.on("connection", (socket) => {
