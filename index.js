@@ -8,7 +8,7 @@ const server = http.createServer(app);
 const {Server} = require("socket.io");
 const io = new Server(server, {
     cors: {
-      origin: ["http://192.168.1.54:3000", "http://localhost:3000"]
+      origin: ["https://rydisbot3-clinet.vercel.app"]
     }
   });
 const PORT = 5000;
