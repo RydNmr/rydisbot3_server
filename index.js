@@ -24,9 +24,11 @@ io.on("connection", (socket) => {
           var url = data.music;
         } else {
           console.log("this is query!!")
-          search(data.music);
+          var query = data.music
+          search(query);
+          console.log("hello");
         }
-        console.log(url);
+        
         
     })
 
