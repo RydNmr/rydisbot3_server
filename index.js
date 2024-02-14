@@ -1,6 +1,5 @@
 require('dotenv/config');
-import { url } from "inspector";
-import search from "./commands/search.js";
+const search = require("./commands/serach.js");
 
 const express = require("express");
 const app = express();

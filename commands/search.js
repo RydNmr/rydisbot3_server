@@ -1,4 +1,4 @@
-import { google } from "googleapis";
+const { google } = require("googleapis");
 const { youtube_api_key} = require("../config")
 const youtube = google.youtube({
     version: 'v3',
