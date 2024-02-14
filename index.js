@@ -13,12 +13,31 @@ const io = new Server(server, {
   });
 const PORT = process.env.PORT || 3000;
 
-// connect to client
+// connect to client side
 io.on("connection", (socket) => {
     console.log("Successfully connected to client !");
 
-    // Receive message from client
-    socket.on("send_message", (data) => {
+    socket.on("send_music",(data) => {
+        if(data.music === startsWith("http")) {
+          console.log("url is here")
+        } else {
+          console.log("this is query!!")
+        }
+    })
+
+
+    // When disconnected
+    socket.on("disconnect", () => {
+        console.log("user disconnected");
+    });
+});
+
+
+/*-------------------------------------------------------------------------------------------------------------------
+THIS SUPPOSED TO BE INSERTED IN LINE 21
+
+// Receive message from client
+    socket.on("send_music", (data) => {
         console.log(data);
         client.channels.cache.get('1089831883132649502').send(data.message)
 
@@ -26,12 +45,10 @@ io.on("connection", (socket) => {
 
         io.emit('received_message', data);
     })
+-------------------------------------------------------------------------------------------------------------------*/
 
-    // When disconnected
-    socket.on("disconnect", () => {
-        console.log("user disconnected");
-    });
-});
+
+
 
 /*-------------------------------------------------------------------------------------------------------------------------
 BOT process START
