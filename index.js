@@ -1,5 +1,5 @@
 require('dotenv/config');
-const search = require("./commands/serach.js");
+const search = require("./commands/search.js");
 
 const express = require("express");
 const app = express();
