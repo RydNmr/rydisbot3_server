@@ -19,7 +19,7 @@ io.on("connection", (socket) => {
     console.log("Successfully connected to client !");
 
     socket.on("send_music",(data) => {
-        if(data.music === startsWith("http")) {
+        if(data.music.startsWith("http")) {
           console.log("url is here")
           var url = data.music;
         } else {
