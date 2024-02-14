@@ -1,4 +1,6 @@
 require('dotenv/config');
+import { url } from "inspector";
+import search from "./commands/search.js";
 
 const express = require("express");
 const app = express();
@@ -20,9 +22,13 @@ io.on("connection", (socket) => {
     socket.on("send_music",(data) => {
         if(data.music === startsWith("http")) {
           console.log("url is here")
+          var url = data.music;
         } else {
           console.log("this is query!!")
+          search(data.music);
         }
+        console.log(url);
+        
     })
 
 
