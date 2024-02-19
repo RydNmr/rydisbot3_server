@@ -1,83 +1,39 @@
 require('dotenv/config');
-const search = require("./commands/search.js");
-
-const express = require("express");
-const app = express();
-
-const http = require("http");
-const server = http.createServer(app);
-const {Server} = require("socket.io");
-const io = new Server(server, {
-    cors: {
-      origin: ["https://rydisbot3-client.vercel.app"]
-    }
-  });
-const PORT = process.env.PORT || 3000;
-
-// connect to client side
-io.on("connection", (socket) => {
-    console.log("Successfully connected to client !");
-
-    socket.on("send_music",(data) => {
-        if(data.music.startsWith("http")) {
-          console.log("url is here")
-          var url = data.music;
-        } else {
-          console.log("this is query!!")
-          var query = data.music
-          search(query);
-          console.log("hello");
-        }
-        
-        
-    })
-
-
-    // When disconnected
-    socket.on("disconnect", () => {
-        console.log("user disconnected");
-    });
-});
-
-
-/*-------------------------------------------------------------------------------------------------------------------
-THIS SUPPOSED TO BE INSERTED IN LINE 21
-
-// Receive message from client
-    socket.on("send_music", (data) => {
-        console.log(data);
-        client.channels.cache.get('1089831883132649502').send(data.message)
-
-
-
-        io.emit('received_message', data);
-    })
--------------------------------------------------------------------------------------------------------------------*/
-
-
-
-
-/*-------------------------------------------------------------------------------------------------------------------------
-BOT process START
--------------------------------------------------------------------------------------------------------------------------*/
-const { Client, Events, GatewayIntentBits } = require('discord.js');
 const { bot_token } = require('./config');
+const Discord = require('discord.js')
+const client = new Discord.Client({
+  intents: ['Guilds', 'GuildMessages', 'MessageContent'] // Intents
+})
 
-// Create a new client instance
-const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+// Import commands
+const play = require('./commands/play.js');
+const vcmodule = require('./commands/vc.js');
+// 関数を使用するときは、 vcmodule.vcjoin(); とか。
 
-// When the client is ready, run this code (only once).
-client.once(Events.ClientReady, readyClient => {
-	console.log(`Discord bot is ready! Logged in as ${readyClient.user.tag}`);
+
+
+/*----------------------------------------------------------------------------
+BOT command handling
+-----------------------------------------------------------------------------*/
+
+const prefix = '!'
+
+client.on('messageCreate', async message => {
+ if (!message.content.startsWith(prefix)) return
+ const [command, ...args] = message.content.slice(prefix.length).split(/\s+/)
+  if (command === 'join') vcmodule.vcjoin();
+  if(command === 'leave') vcmodule.vcleave();
+  if (command === 'play') play(args);
+})
+
+
+
+
+
+
+client.login(bot_token)
+client.once(Discord.Events.ClientReady, readyClient => {
+  console.log(`Discord bot is ready! Logged in as ${readyClient.user.tag}`);
 });
-
-// Log in to Discord with your client's token
-client.login(bot_token);
 
 module.exports = client;
-
-/*-------------------------------------------------------------------------------------------------------------------------
-BOT process END
--------------------------------------------------------------------------------------------------------------------------*/
-// launch http server
-server.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
