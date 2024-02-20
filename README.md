@@ -13,10 +13,12 @@
   play.js
   - play();
   ```
-  ::: note info
+::: note
+
   search function is called and returns ytdl-compatible url.
     ```
     search.js
     - search(query);
     // return url
     ```
+:::

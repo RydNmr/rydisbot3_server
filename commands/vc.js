@@ -1,8 +1,9 @@
 const { entersState, AudioPlayerStatus, createAudioPlayer, createAudioResource, joinVoiceChannel,  StreamType } = require('@discordjs/voice');
 
 let connection;
+let player;
 
-function vcjoin() {
+function vcjoin(message) {
   const channel = message.member.voice.channel;
   if (!channel) return message.reply('Cannot find voice channel');
   connection = joinVoiceChannel({
@@ -12,15 +13,17 @@ function vcjoin() {
     selfDeaf: true,
     selfMute: false,
   });
-   const player = createAudioPlayer();
+   player = createAudioPlayer();
    connection.subscribe(player);
 }
 
-function vcleave() {
+function vcleave(connection) {
   connection.destroy();
 }
 
 module.exports = {
+  connection,
   vcjoin,
-  vcleave
+  vcleave,
+  getPlayer: () => player
 }

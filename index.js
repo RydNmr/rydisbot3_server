@@ -6,7 +6,7 @@ const client = new Discord.Client({
 })
 
 // Import commands
-const play = require('./commands/play.js');
+const ytplay = require('./commands/play.js');
 const vcmodule = require('./commands/vc.js');
 // 関数を使用するときは、 vcmodule.vcjoin(); とか。
 
@@ -21,9 +21,9 @@ const prefix = '!'
 client.on('messageCreate', async message => {
  if (!message.content.startsWith(prefix)) return
  const [command, ...args] = message.content.slice(prefix.length).split(/\s+/)
-  if (command === 'join') vcmodule.vcjoin();
-  if(command === 'leave') vcmodule.vcleave();
-  if (command === 'play') play(args);
+  if (command === 'join') vcmodule.vcjoin(message);
+  if (command === 'leave') vcmodule.vcleave(vcmodule.connection);
+  if (command === 'play') ytplay(args);
 })
 
 
